@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: recharge_subscriptions_counts
+    description: "Subscriptions with prior subscriber counts and key dates/booleans."
+    columns:
+      - name: date_actual
+        description: ""
+
+      - name: new_subscriptions
+        description: ""
+
+      - name: returning_subscriptions
+        description: ""
+
+      - name: new_subscribers
+        description: ""
+
+      - name: num_cancelled_subscriptions
+        description: ""
+
+      - name: active_cancelled_subscriptions
+        description: ""
+
+      - name: passive_cancelled_subscriptions
+        description: ""
+
+      - name: same_day_cancels
+        description: ""
+
+      - name: num_null_cancel_dates
+        description: ""

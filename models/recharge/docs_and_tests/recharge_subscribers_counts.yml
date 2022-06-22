@@ -1,0 +1,45 @@
+version: 2
+
+models:
+  - name: recharge_subscribers_counts
+    description: ""
+    columns:
+      - name: date_actual
+        description: ""
+        tests:
+          - not_null
+
+      - name: customer_id
+        description: ""
+        tests:
+          - not_null
+
+      - name: created_subscriptions
+        description: ""
+
+      - name: active_cancelled_subscriptions
+        description: ""
+
+      - name: payment_failure_subscriptions
+        description: ""
+
+      - name: first_subscription_date
+        description: ""
+
+      - name: running_total_created_subs
+        description: ""
+
+      - name: running_total_active_canceled_subs
+        description: ""
+
+      - name: running_total_payment_failure_subs
+        description: ""
+
+      - name: running_total_non_same_day_canceled_subs
+        description: ""
+
+      - name: running_total_active_subs
+        description: ""
+
+      - name: prior_total_active_subs
+        description: ""

@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: subscription_report
+    description: ""
+    columns:
+      - name: date_actual
+        description: ""
+        tests:
+          - unique
+          - not_null
+
+      - name: new_subscriptions
+        description: ""
+
+      - name: returning_subscriptions
+        description: ""
+
+      - name: active_cancelled_subscriptions
+        description: ""
+
+      - name: active_subscription
+        description: ""
+
+      - name: churned_subscription
+        description: ""
+
+      - name: new_subscribers
+        description: ""
+
+      - name: cancelled_subscribers
+        description: ""
+
+      - name: active_subscribers
+        description: ""
+
+      - name: churned_subscribers
+        description: ""

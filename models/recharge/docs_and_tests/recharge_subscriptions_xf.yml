@@ -1,0 +1,208 @@
+version: 2
+
+models:
+  - name: recharge_subscriptions_xf
+    description: ""
+    columns:
+      - name: subscription_id
+        description: ""
+        tests:
+          - unique
+          - not_null
+
+      - name: customer_id
+        description: ""
+        tests:
+          - not_null
+
+      - name: shopify_product_id
+        description: ""
+
+      - name: shopify_variant_id
+        description: ""
+
+      - name: recharge_product_id
+        description: ""
+
+      - name: customer_email
+        description: ""
+
+      - name: subscription_interval_unit
+        description: ""
+
+      - name: subscription_interval_frequency
+        description: ""
+
+      - name: charge_interval_frequency
+        description: ""
+
+      - name: subscription_price
+        description: ""
+
+      - name: subscription_quantity
+        description: ""
+
+      - name: subscription_cancellation_reason
+        description: ""
+
+      - name: subscription_cancellation_reason_details
+        description: ""
+
+      - name: subscription_status
+        description: ""
+        tests:
+          - accepted_values:
+              values: ['active', 'cancelled']
+
+      - name: product_sku
+        description: ""
+
+      - name: product_title
+        description: ""
+
+      - name: product_variant_title
+        description: ""
+
+      - name: subscription_created_at
+        description: ""
+
+      - name: subscription_updated_at
+        description: ""
+
+      - name: next_charge_scheduled_at
+        description: ""
+
+      - name: subscription_created_date
+        description: ""
+
+      - name: subscription_updated_date
+        description: ""
+
+      - name: next_charge_scheduled_date
+        description: ""
+
+      - name: order_day_of_month
+        description: ""
+
+      - name: order_day_of_week
+        description: ""
+
+      - name: is_subscription_prepaid
+        description: ""
+        tests:
+          - accepted_values:
+              values: [true, false]
+              quote: false
+
+      - name: is_subscription_skippable
+        description: ""
+        tests:
+          - accepted_values:
+              values: [true, false] 
+              quote: false       
+
+      - name: is_subscription_swappable
+        description: ""
+        tests:
+          - accepted_values:
+              values: [true, false]  
+              quote: false      
+
+      - name: has_sku_override
+        description: ""
+        tests:
+          - accepted_values:
+              values: [true, false] 
+              quote: false       
+
+      - name: has_reached_max_retries
+        description: ""
+        tests:
+          - accepted_values:
+              values: [true, false]
+              quote: false        
+
+      - name: has_queued_charges
+        description: ""
+        tests:
+          - accepted_values:
+              values: [true, false]
+              quote: false        
+
+      - name: subscription_cancelled_at
+        description: ""
+
+      - name: subscription_cancelled_date
+        description: ""
+
+      - name: has_null_cancellation_date
+        description: ""
+        tests:
+          - accepted_values:
+              values: [true, false] 
+              quote: false       
+
+      - name: is_subscription_active_cancelled
+        description: ""
+        tests:
+          - accepted_values:
+              values: [true, false]
+              quote: false        
+
+      - name: is_subscription_payment_failure
+        description: ""
+        tests:
+          - accepted_values:
+              values: [true, false]  
+              quote: false      
+
+      - name: is_subscription_active
+        description: ""
+        tests:
+          - accepted_values:
+              values: [true, false] 
+              quote: false       
+
+      - name: is_same_day_cancel
+        description: ""
+        tests:
+          - accepted_values:
+              values: [true, false] 
+              quote: false       
+
+      - name: subscription_shipping_interval_frequency
+        description: ""
+
+      - name: shipping_interval_unit_type
+        description: ""
+
+      - name: add_on_subscription_id
+        description: ""
+
+      - name: is_add_on
+        description: ""
+        tests:
+          - accepted_values:
+              values: [true, false]
+              quote: false        
+
+      - name: kit_notes
+        description: ""
+
+      - name: utm_data_source
+        description: ""
+
+      - name: utm_source
+        description: ""
+
+      - name: utm_medium
+        description: ""
+
+      - name: utm_campaign
+        description: ""
+
+      - name: utm_content
+        description: ""
+
+      - name: utm_timestamp
+        description: ""
