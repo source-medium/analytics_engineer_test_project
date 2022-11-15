@@ -2,16 +2,20 @@
 -- table for readability and do some light cleaning + re-aliasing where necessary.
 
 select
-    id as recharge_subscription_id,
+    id,
     customer_id,
 
     -- subscription product details
     shopify_product_id,
-    recharge_subscription_id,
+    recharge_product_id,
     shopify_variant_id,
     sku,
     product_title,
     price,
+
+    -- status and other info
+    status,
+    lower(cancellation_reason) as cancellation_reason,
 
     -- timestamps
     created_at,
