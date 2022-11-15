@@ -30,6 +30,9 @@ select
         else false
     end as was_cancelled,
 
+    -- window functions
+    row_number() over (partition by customer_id order by created_at asc) as customer_subscription_number,
+
     -- timestamps
     created_at,
     cancelled_at,
