@@ -61,4 +61,8 @@ subscriber_cancellations as (
     group by 1
 )
 
-select * from subscriber_cancellations
+select
+    *,
+    sum(subscribers_cancelled) over (order by date asc) as subscribers_churned
+
+from subscriber_cancellations

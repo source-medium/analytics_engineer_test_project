@@ -7,9 +7,10 @@ select
     coalesce(subscriptions_active.subscriptions_active,0) as subscriptions_active,
     coalesce(subscriptions_cancelled.subscriptions_churned,0) as subscriptions_churned,
 
-    coalesce(subscribers_new.subscribers_new) as subscribers_new,
-    coalesce(subscribers_cancelled.subscribers_cancelled) as subscribers_cancelled,
-    coalesce(subscribers_active.subscribers_active) as subscribers_active
+    coalesce(subscribers_new.subscribers_new,0) as subscribers_new,
+    coalesce(subscribers_cancelled.subscribers_cancelled,0) as subscribers_cancelled,
+    coalesce(subscribers_active.subscribers_active,0) as subscribers_active,
+    coalesce(subscribers_cancelled.subscribers_churned,0) as subscribers_churned
 
 from {{ ref('date_spine') }}
 left join {{ ref('subscriptions_new') }}
