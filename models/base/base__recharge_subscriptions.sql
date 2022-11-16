@@ -2,6 +2,8 @@
 ---- logically organize the columns in the source table for readability
 ---- light cleaning + re-aliasing where necessary
 ---- derive fields that will be helpful downstream
+---- filter out records that should not be included, e.g. subscriptions that are
+------ status = 'CANCELLED' but don't have a cancelled_at timestamp.
 
 select
     id as subscription_id,
@@ -43,3 +45,6 @@ select
     date(cancelled_at) as cancelled_date
 
 from {{ source('raw_data_sandbox', 'acme1_recharge_subscriptions') }}
+
+-- filtering out these records allows for final daily metrics to match more closely.
+where not (status = 'CANCELLED' and cancelled_at is null)
