@@ -6,10 +6,10 @@ with customers_days as (
     select
         date,
         customer_id,
+        count(subscription_id) as customer_subscriptions_count,
         max(cancelled_date) as cancelled_date
 
     from {{ ref('subscriptions_days') }}
-    where is_subscription_active = false
     group by 1,2
 ),
 
@@ -65,7 +65,7 @@ customers_days_churn_date_added as (
 subscriber_cancellations as (
 
     select
-        date,
+        churned_date as date,
         count(*) as subscribers_cancelled
 
     from customers_days_churn_date_added
