@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  - name: subscriptions_days
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - date
+            - subscription_id
+
+  - name: subscribers_days
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - date
+            - customer_id
