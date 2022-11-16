@@ -8,6 +8,7 @@ select
     coalesce(subscriptions_cancelled.subscriptions_churned,0) as subscriptions_churned,
 
     coalesce(subscribers_new.subscribers_new) as subscribers_new,
+    coalesce(subscribers_cancelled.subscribers_cancelled) as subscribers_cancelled,
     coalesce(subscribers_active.subscribers_active) as subscribers_active
 
 from {{ ref('date_spine') }}
@@ -21,5 +22,7 @@ left join {{ ref('subscriptions_active') }}
     on date_spine.date_day = subscriptions_active.date
 left join {{ ref('subscribers_new') }}
     on date_spine.date_day = subscribers_new.date
+left join {{ ref('subscribers_cancelled') }}
+    on date_spine.date_day = subscribers_cancelled.date
 left join {{ ref('subscribers_active') }}
     on date_spine.date_day = subscribers_active.date

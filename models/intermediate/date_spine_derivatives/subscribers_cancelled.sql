@@ -1,19 +1,7 @@
--- first step, get a model that is as the customer*day grain for every day they had
--- at least one active subscription.
+-- build off the customer * day grain model with cascading cte's to self derive
+-- churn events.
 
-with customers_days as (
-
-    select
-        date,
-        customer_id,
-        count(subscription_id) as customer_subscriptions_count,
-        max(cancelled_date) as cancelled_date
-
-    from {{ ref('subscriptions_days') }}
-    group by 1,2
-),
-
-customers_days_with_lead as (
+with customers_days_with_lead as (
     -- use lead() to find the next date that this model shows the customer has an
     -- active subscription.
     select
@@ -27,7 +15,7 @@ customers_days_with_lead as (
             day
       ) as days_to_next_customer_subscription_day
 
-    from customers_days
+    from {{ ref('subscribers_days') }}
 ),
 
 customers_days_next_day_churn as (
