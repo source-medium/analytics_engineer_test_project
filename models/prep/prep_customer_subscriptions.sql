@@ -4,6 +4,8 @@ select
         , cast(created_at as string)
     )) as primary_key
     , customer_id
+    , transaction_id
+    , date(created_at) as `date`
     , subscription_sku
     , subscription_title
     , subscription_price

@@ -1,20 +1,21 @@
 select 
-    sha256(recharge_subscriptions.id) as primary_key
-    , cast(recharge_subscriptions.id) as transaction_id
+    sha256(cast(recharge_subscriptions.id as string)) as primary_key
+    , cast(recharge_subscriptions.id as int) as transaction_id
     , cast(recharge_subscriptions.customer_id as int) as customer_id
     , cast(recharge_subscriptions.sku as string) as subscription_sku
     , cast(recharge_subscriptions.email as string) as customer_email
     , cast(recharge_subscriptions.product_title as string) as subscription_title
-    , cast(recharge_subscriptions.price as float) as subscription_price
+    , cast(recharge_subscriptions.price as float64) as subscription_price
     , case 
-        when recharge_subscriptions.status = 'CANCELLED' then TRUE
+        when recharge_subscriptions.status = 'CANCELLED' 
+            or recharge_subscriptions.status = 'EXPIRED' then TRUE
         else FALSE 
     end as is_subscription_cancelled
     , case 
         when recharge_subscriptions.status = 'ACTIVE' then TRUE 
         else FALSE 
     end as is_subscription_active
-    , cast(recharge_subscriptions.quanity as int) as quantity
+    , cast(recharge_subscriptions.quantity as int) as quantity
     , cast(recharge_subscriptions.created_at as datetime) as created_at
     , cast(recharge_subscriptions.is_prepaid as bool) as is_subscription_prepaid
     , recharge_subscriptions.properties
