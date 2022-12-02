@@ -15,6 +15,8 @@ select
     , total_subs.subscriptions_churned
     , subscriber_discretes.subscribers_new
     , subscriber_discretes.subscribers_cancelled
+    , subscriber_totals.subscribers_active
+    , subscriber_totals.subscribers_churned
 from {{ ref('dim_date') }}
 left join {{ ref('prep_customer_subscriptions') }} as new_customers on 
     dim_date.date = date(new_customers.created_at)
@@ -26,10 +28,16 @@ left join {{ ref('prep_total_subscriptions') }} as total_subs on
     dim_date.date = total_subs.dynamic_date
 left join {{ ref('prep_subscribers') }} as subscriber_discretes on 
     dim_date.date = subscriber_discretes.date
+left join {{ ref('prep_total_subscribers') }} as subscriber_totals on 
+    dim_date.date = subscriber_totals.date
+where 
+    dim_date.date >= '2022-04-03'
 group by
     dim_date.date
     , total_subs.subscriptions_active
     , total_subs.subscriptions_churned
     , subscriber_discretes.subscribers_new
     , subscriber_discretes.subscribers_cancelled
+    , subscriber_totals.subscribers_active
+    , subscriber_totals.subscribers_churned
 order by dim_date.date desc
