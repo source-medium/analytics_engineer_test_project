@@ -7,8 +7,7 @@ select
     , cast(recharge_subscriptions.product_title as string) as subscription_title
     , cast(recharge_subscriptions.price as float64) as subscription_price
     , case 
-        when recharge_subscriptions.status = 'CANCELLED' 
-            or recharge_subscriptions.status = 'EXPIRED' then TRUE
+        when recharge_subscriptions.status = 'CANCELLED' then TRUE
         else FALSE 
     end as is_subscription_cancelled
     , case 

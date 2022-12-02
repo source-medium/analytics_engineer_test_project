@@ -8,7 +8,6 @@ from {{ ref('prep_customer_subscriptions') }}
 where is_subscription_cancelled
 )
 
-
 select 
     prep.customer_id 
     , date(prep.created_at) as created_on
@@ -19,3 +18,5 @@ left join cancelled_subscriptions on
     prep.customer_id = cancelled_subscriptions.customer_id 
 where 
     date(prep.created_at) > cancelled_subscriptions.cancelled_on
+
+    
