@@ -7,25 +7,14 @@ with first_created_date as (
     group by 
         customer_id
 )
-, no_active_subscribers as (
-    select 
-        customer_id 
-    from {{ ref('prep_customer_subscriptions') }}
-    where is_subscription_cancelled
-    except distinct 
-    select 
-        customer_id 
-    from {{ ref('prep_customer_subscriptions') }}
-    where is_subscription_active
-)
 
 , first_cancelled_date as (
     select
-        no_active_subscribers.customer_id 
+        prep_no_active_subscribers.customer_id 
         , min(date(prep.cancelled_at)) as first_cancelled_date
-    from no_active_subscribers
-    left join {{ ref('prep_customer_subscriptions') }} as prep on 
-        no_active_subscribers.customer_id = prep.customer_id
+    from {{ ref('prep_no_active_subscribers') }}
+    inner join {{ ref('prep_customer_subscriptions') }} as prep on 
+        prep_no_active_subscribers.customer_id = prep.customer_id
     group by 
         customer_id
 )
