@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: prep_returning_customers
+    description: table containing data on customers who cancelled and then purchased new subscriptions
+
+    columns:
+      - name: customer_id
+        description: "{{ doc('customer_id') }}"
+        tests:
+          - not_null
+      
+      - name: created_on
+        description: date that a customer purchase their new subscription
+
+      - name: transaction_id
+        description: "{{ doc('transaction_id') }}"
+        tests:
+          - not_null
+
+      

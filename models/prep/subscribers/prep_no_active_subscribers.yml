@@ -1,0 +1,11 @@
+version: 2
+
+models:
+  - name: prep_no_active_subscribers
+    description: prep table that provides a customer_ids for individuals who have NO active subscriptions
+
+    columns:
+      - name: customer_id
+        description: "{{ doc('customer_id') }}"
+        tests:
+          - not_null

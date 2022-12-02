@@ -1,0 +1,15 @@
+version: 2
+
+models:
+  - name: prep_total_subscriptions
+    description: table that running total of active and churned subscriptions by date
+
+    columns:
+      - name: dynamic_date
+        description: date that captures either the created_at or cancelled_at date depending on the subscription status
+      
+      - name: subscriptions_active
+        description: running total of active subscriptions
+
+      - name: subscriptions_churned
+        description: running total of churned subscriptions

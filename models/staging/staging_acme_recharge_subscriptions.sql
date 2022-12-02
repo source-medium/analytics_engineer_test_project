@@ -17,15 +17,7 @@ select
     , cast(recharge_subscriptions.quantity as int) as quantity
     , cast(recharge_subscriptions.created_at as datetime) as created_at
     , cast(recharge_subscriptions.is_prepaid as bool) as is_subscription_prepaid
-    , recharge_subscriptions.properties
-    , cast(recharge_subscriptions.updated_at as datetime) as updated_at
     , cast(recharge_subscriptions.cancelled_at as datetime) as cancelled_at
-    , cast(recharge_subscriptions.is_skippable as bool) as is_skippable
-    , cast(recharge_subscriptions.is_swappable as bool) as is_swappable
-    , cast(recharge_subscriptions.sku_override as bool) as sku_override 
-    , recharge_subscriptions.commit_update
-    , recharge_subscriptions.variant_title
-    , recharge_subscriptions.analytics_data
     , coalesce(
         recharge_subscriptions.order_day_of_week
         , extract(dayofweek from date(recharge_subscriptions.created_at))
@@ -38,8 +30,6 @@ select
         recharge_subscriptions.order_day_of_month
         , extract(day from date(recharge_subscriptions.created_at))
     ) as order_day_of_month
-    , cast(recharge_subscriptions.shopify_product_id as int) as shopify_product_id
-    , cast(recharge_subscriptions.shopify_variant_id as int) as shopify_variant_id
     , cast(recharge_subscriptions.cancellation_reason as string) as cancellation_reason
     , cast(recharge_subscriptions.max_retries_reached as int) as max_retries_reached
     , case
@@ -50,7 +40,6 @@ select
         when recharge_subscriptions.order_interval_unit is null then 'N/A'
         else 'ERROR'
     end as order_interval_unit
-    , cast(recharge_subscriptions.recharge_product_id as int) as recharge_product_id
     , cast(recharge_subscriptions.next_charge_scheduled_at as datetime) as next_charge_scheduled_at
     , cast(recharge_subscriptions.order_interval_frequency as int) as order_interval_frequency
     , cast(recharge_subscriptions.charge_interval_frequency as int) as charge_interval_frequency

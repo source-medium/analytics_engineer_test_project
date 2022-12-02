@@ -1,0 +1,11 @@
+version: 2
+
+models:
+  - name: dim_date
+    description: date spine that contains date values from 2020-01-01 to 2022-04-07
+
+    columns:
+      - name: date
+        description: "{{ doc('date') }}"
+        tests:
+          - not_null

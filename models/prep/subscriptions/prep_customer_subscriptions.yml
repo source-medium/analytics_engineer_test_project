@@ -1,0 +1,66 @@
+version: 2
+
+models:
+  - name: prep_customer_subscriptions
+    description: table containing more defined subscription data
+
+    columns:
+      - name: customer_id
+        description: "{{ doc('customer_id') }}"
+        tests:
+          - not_null
+
+      - name: transaction_id
+        description: "{{ doc('transaction_id') }}"
+        tests:
+          - unique
+          - not_null
+
+      - name: subscription_sku
+        description: the sku number of a given subscription
+
+      - name: subscription_title
+        description: the human readable name for a subscription
+
+      - name: subscription_price
+        description: the price of a subscription
+
+      - name: is_subscription_cancelled
+        description: boolean value for if a subscription has been cancelled
+        tests:
+          - not_null
+
+      - name: is_subscription_active
+        description: boolean value for if a subscription is active
+        tests:
+          - not_null
+      
+      - name: is_subscription_prepaid
+        description: boolean value for if a subscription has been prepaid
+        tests:
+          - not_null
+
+      - name: max_retries_reached
+        description: number of times that a charge can be retried for a transaction
+
+      - name: quantity
+        description: the number purchased
+
+      - name: created_at
+        description: "{{ doc('created_at') }}"
+
+      - name: cancelled_at
+        description: "{{ doc('cancelled_at') }}"
+        tests:
+
+      - name: cancellation_reason
+        description: string value for the reason behind a cancellation
+
+      - name: cancellation_reason_comments
+        description: string that captures additional cancellation reasons
+
+      - name: next_charge_scheduled_at
+        description: next date that a charge is scheduled to occur for a subscription
+
+      - name: expire_after_specific_number_of_charges
+        description: timebox for when a subscription should expire based on the number of charges that have occurred.

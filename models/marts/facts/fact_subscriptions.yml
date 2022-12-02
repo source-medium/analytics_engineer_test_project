@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: fact_subscriptions
+    description: table containing key subscription / subscriber metrics from 2022-04-03 to 2022-04-07
+
+    columns:
+      - name: date
+        description: "{{ doc('date') }}"
+        tests:
+          - not_null
+
+      - name: subscriptions_new
+        description: number of new subscriptions by day
+
+      - name: subscriptions_cancelled
+        description: number of cancelled subscriptions by day
+
+      - name: subscriptions_active
+        description: running total of active subscriptions
+
+      - name: subscriptions_churned
+        description: running total of churned subscriptions
+
+      - name: subscribers_new
+        description: number of new subscribers by day
+
+      - name: subscribers_cancelled
+        description: number of cancelled subscribers by day
+
+      - name: subscribers_active
+        description: running total of active subscribers
+
+      - name: subscribers_churned
+        description: running total of churned subscribers

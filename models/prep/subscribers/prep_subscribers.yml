@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: prep_subscribers
+    description: table that discrete values for active and cancelled subscribers by date
+
+    columns:
+      - name: date
+        description: date in which an activity has occurred
+        tests:
+          - not_null
+      
+      - name: subscribers_new
+        description: number of new subscribers by day
+
+      - name: subscribers_cancelled
+        description: number of cancelled subscribers by day

@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: prep_total_subscribers
+    description: table that running total of active and churned subscribers by date
+
+    columns:
+      - name: date
+        description: date in which an activity has occurred
+        tests:
+          - not_null
+      
+      - name: subscribers_active
+        description: running total of active subscribers
+
+      - name: subscribers_churned
+        description: running total of churned subscribers
