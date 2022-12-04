@@ -17,7 +17,7 @@ renamed as (
         email customer_email,
         product_title,
         price,
-        status AS subscription_status,
+        status AS subscription_status, -- someimes this says cancelled but the cancelled_at timestamp is blank. i'd assume we'd want to populate that with the updated_at timestamp
         quantity,
         order_interval_frequency,
         order_interval_unit, -- TODO: this and other columns could be cleaned if we need to use them, but not needed right now
