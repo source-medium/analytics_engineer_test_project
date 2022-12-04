@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: base__recharge_subscriptions
+    columns:
+      - name: subscription_id
+        description: >
+          the primary key id of the subscription source table. Re-aliased for clarity downstream.
+        tests:
+          - unique
+          - not_null
+
+  - name: date_spine
+    description: >
+      a utility table built using dbt_utils. this can be used downstream to fan out other tables
+      to build a picture of daily activity from timestamp/date fields.
+    columns:
+      - name: date_day
+        tests:
+          - unique
+          - not_null
