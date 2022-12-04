@@ -1,9 +1,9 @@
 version: 2
 
 models:
-  - name: subscription_active_periods
+  - name: subscription_active_dates
     columns:
-      - name: subscription_active_period_id
+      - name: subscription_active_date_id
         tests:
           - unique
           - not_null

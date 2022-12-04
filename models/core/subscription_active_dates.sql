@@ -13,7 +13,7 @@ date_spine as (
 )
 
 select
-      {{ dbt_utils.surrogate_key('ds.date_day', 'rs.subscription_id') }} as subscription_active_period_id
+      {{ dbt_utils.surrogate_key('ds.date_day', 'rs.subscription_id') }} as subscription_active_date_id
     , ds.date_day AS report_date
     , rs.subscription_id
     , rs.created_at
