@@ -24,7 +24,7 @@ customer_dates as (
 
     select
           ds.date_day as date
-        , c.customer_id
+        , c.*
     from customers as c
     left join date_spine as ds
         on ds.date_day >= c.initial_subscription_for_customer_date
@@ -33,7 +33,26 @@ customer_dates as (
 
 select
       cd.*
-    , sad.subscriptions_active_count
+    , ifnull(sad.subscriptions_active_count, 0) as subscriptions_active_count
+    , if(cd.initial_subscription_for_customer_date = cd.date, 1, 0) as is_new_customer_int
+    , if(sad.subscriptions_active_count > 0, 1, 0) as is_active_customer_int
+    , if(
+        LAG(sad.subscriptions_active_count) over (partition by cd.customer_id order by cd.date)
+            > 0
+        and sad.subscriptions_active_count is null
+    , 1, 0) as is_cancelled_customer_int
+    , if(
+        LAG(sad.subscriptions_active_count) over (partition by cd.customer_id order by cd.date)
+            is null
+        and sad.subscriptions_active_count > 0
+        and cd.initial_subscription_for_customer_date != cd.date 
+    , 1, 0) as is_returning_customer_int
+    , if(
+        LAG(sad.subscriptions_active_count) over (partition by cd.customer_id order by cd.date)
+            is null
+        and sad.subscriptions_active_count > 0
+        and cd.initial_subscription_for_customer_date != cd.date 
+    , sad.subscriptions_active_count, 0) as returning_customer_subscription_count
 from customer_dates as cd
 left join subscription_active_dates_agg_customer as sad
     on cd.date = sad.date

@@ -20,6 +20,8 @@ select
     , rs.customer_id
     , rs.shopify_product_id
     , rs.sku
+    , if(rs.created_date = ds.date_day, 1, 0) as is_new_subscription_int
+    , if(rs.cancelled_date = ds.date_day, 1, 0) as is_cancelled_subscription_int
 from date_spine as ds
 left join recharge_subscriptions as rs
     ON ds.date_day >= created_date
