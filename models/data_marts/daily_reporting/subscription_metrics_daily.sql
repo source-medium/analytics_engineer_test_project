@@ -4,7 +4,7 @@ with subscription_active_dates as (
 )
 
 SELECT
-      report_date as date
+      date
     , count(subscription_id) as subscriptions_active
 FROM subscription_active_dates
 GROUP BY 1

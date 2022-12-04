@@ -25,9 +25,11 @@ renamed as (
         expire_after_specific_number_of_charges,
 
         created_at,
+        EXTRACT(date from created_at) as created_date,
         updated_at,
         next_charge_scheduled_at,
         cancelled_at,
+        EXTRACT(date from cancelled_at) as cancelled_date,
         cancellation_reason,
         cancellation_reason_comments,
         IF(
