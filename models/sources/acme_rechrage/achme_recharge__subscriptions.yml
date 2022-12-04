@@ -1,0 +1,9 @@
+version: 2
+
+models:
+  - name: acme_recharge__subscriptions
+    columns:
+      - name: subscription_id
+        tests:
+          - unique
+          - not_null
