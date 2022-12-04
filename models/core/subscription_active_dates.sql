@@ -26,7 +26,6 @@ select
 from date_spine as ds
 left join recharge_subscriptions as rs
     ON ds.date_day >= created_date
-    -- Only expand the subscription until its cancellation date or the last created date in the table
-    -- TODO: Should we be counting the cancelled at as in force for some period of time?
-    -- Defaulting that we should
-    AND ds.date_day <= COALESCE(rs.cancelled_date, most_recent_subscription_created_date_all_customers)
+    -- Defaulting that we should include a subscription as active on its effective
+    -- I'm extending active windows by 5 arbitrarily so it doesn't look like active subscriptions all fall off on the current date
+    AND ds.date_day <= COALESCE(rs.cancelled_date, most_recent_subscription_created_date_all_customers + 5)

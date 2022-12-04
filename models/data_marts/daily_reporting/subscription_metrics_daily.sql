@@ -3,23 +3,28 @@ with subscription_active_dates as (
     select * from {{ ref('subscription_active_dates') }}
 ),
 
-customer_dates as (
-    select * from {{ ref('customer_dates') }}
+customer_active_dates as (
+    select * from {{ ref('customer_active_dates') }}
+),
+
+metric_aggregates as (
+    select
+        cd.date
+        , sum(cd.total_new_subscriptions) as subscriptions_new
+        , sum(cd.returning_customer_subscription_count) as subscriptions_returning
+        , sum(cd.total_cancelled_subscriptions) as subscriptions_cancelled
+        , sum(cd.subscriptions_active_count) as subscriptions_active
+        , sum(cd.is_new_customer_int) as subscribers_new
+        , sum(cd.is_cancelled_customer_int) as subscribers_cancelled
+        , sum(cd.is_active_customer_int) as subscribers_active
+    from customer_active_dates as cd
+    where cd.date <= PARSE_DATE('%m/%d/%Y', '04/07/2022') -- this would be set to current date with fresher date
+    group by 1
+    order by 1 asc
 )
 
-select
-      sad.date
-    , count(sad.subscription_id) as subscriptions_active
-    , sum(cd.subscriptions_active_count) as subscriptions_active_v2
-
-    , sum(sad.is_new_subscription_int) as subscriptions_new
-    , sum(sad.is_cancelled_subscription_int) as subscriptions_cancelled
-    , sum(cd.is_new_customer_int) as subscribers_new
-    , sum(cd.is_cancelled_customer_int) as subscribers_cancelled
-    , sum(cd.is_active_customer_int) as subscribers_active
-from subscription_active_dates as sad
-left join customer_dates as cd
-    on sad.date = cd.date
-    and sad.customer_id = cd.customer_id
-GROUP BY 1
-ORDER BY 1 ASC
+select 
+     *
+    , sum(ma.subscriptions_cancelled) over (order by date asc) as subscriptions_churned
+    , sum(ma.subscribers_cancelled) over (order by date asc) as subscribers_churned 
+from metric_aggregates as ma

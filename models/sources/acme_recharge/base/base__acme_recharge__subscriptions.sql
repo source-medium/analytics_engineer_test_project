@@ -29,7 +29,8 @@ renamed as (
         updated_at,
         next_charge_scheduled_at,
         cancelled_at,
-        EXTRACT(date from cancelled_at) + 1 as cancelled_date, -- subscription not considered cancelled until the day after the cancellation occurs
+        EXTRACT(date from cancelled_at) as cancelled_date,
+        EXTRACT(date from cancelled_at) + 1 as cancelled_effective_date, -- subscription not considered cancelled until the day after the cancellation occurs
         cancellation_reason,
         cancellation_reason_comments,
         IF(
