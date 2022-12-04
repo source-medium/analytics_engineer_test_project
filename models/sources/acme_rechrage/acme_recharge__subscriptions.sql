@@ -20,7 +20,7 @@ renamed as (
         status AS subscription_status,
         quantity,
         order_interval_frequency,
-        order_interval_unit,
+        order_interval_unit, -- TODO: this and other columns could be cleaned if we need to use them, but not needed right now
         charge_interval_frequency,
         expire_after_specific_number_of_charges,
 

@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: subscription_metrics_daily
+    columns:
+      - name: date
+        tests:
+          - unique
+          - not_null
+

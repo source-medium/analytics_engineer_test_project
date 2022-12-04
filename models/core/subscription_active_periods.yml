@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: subscription_active_periods
+    columns:
+      - name: subscription_active_period_id
+        tests:
+          - unique
+          - not_null
+
