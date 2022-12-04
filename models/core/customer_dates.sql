@@ -21,14 +21,14 @@ subscription_active_dates_agg_customer as (
 ),
 
 customer_dates as (
-
     select
           ds.date_day as date
         , c.*
     from customers as c
     left join date_spine as ds
         on ds.date_day >= c.initial_subscription_for_customer_date
-        and ds.date_day <= c.most_recent_subscription_for_customer_date
+        and ds.date_day <= COALESCE(c.most_recent_cancelled_date, PARSE_DATE('%m/%d/%Y', '12/31/2022'))
+        -- I'm hard coding this, but the point would be to stop the fan out at the date of the last order in the dataset for all customers
 )
 
 select
