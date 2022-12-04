@@ -30,6 +30,12 @@ renamed as (
         cancelled_at,
         cancellation_reason,
         cancellation_reason_comments,
+        IF(
+            LOWER(cancellation_reason) LIKE '%created by accident%'
+            or LOWER(cancellation_reason) LIKE '%duplicate%'
+            or LOWER(cancellation_reason_comments) LIKE '%duplicate%'
+            , true, false 
+        ) as is_duplicate_subscription,
 
         order_day_of_week,
         order_day_of_month,

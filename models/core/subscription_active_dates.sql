@@ -6,6 +6,7 @@ with recharge_subscriptions as (
                     MAX(cancelled_at) over (partition by null)
        ) as most_recent_subscription_created_date
     from {{ ref('acme_recharge__subscriptions') }}
+    where not is_duplicate_subscription
 ),
 
 date_spine as (
