@@ -1,0 +1,6 @@
+date,subscriptions_new,subscriptions_returning,subscriptions_cancelled,subscriptions_active,subscriptions_churned,subscribers_new,subscribers_cancelled,subscribers_active,subscribers_churned
+2022-04-07,77,2,29,9028,10383,45,14,6087,5353
+2022-04-06,67,1,49,8980,10356,25,24,6061,5339
+2022-04-05,92,9,48,8962,10308,43,22,6072,5315
+2022-04-04,65,1,52,8923,10269,29,24,6062,5293
+2022-04-03,90,3,33,8911,10218,41,8,6071,5269

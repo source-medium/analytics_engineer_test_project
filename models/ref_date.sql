@@ -1,0 +1,4 @@
+select
+    *
+from
+    UNNEST(GENERATE_DATE_ARRAY('2015-11-01', '2025-11-01', INTERVAL 1 DAY)) AS date_day

@@ -1,0 +1,152 @@
+,setup_returning_min_cancel as (
+select
+    customer_id
+    ,min(ifnull(cancelled_at,created_at)) as min_cancelled_at
+from
+    `wise-weaver-282922.raw_data_sandbox.acme1_recharge_subscriptions`
+where
+    status = 'CANCELLED'
+group by
+    customer_id
+)
+
+,setup_returning_min_active as (
+select
+    customer_id
+    ,min(created_at) as min_active_at
+from
+    `wise-weaver-282922.raw_data_sandbox.acme1_recharge_subscriptions`
+where
+    status = 'ACTIVE'
+group by
+    customer_id
+)
+
+,subscriptions_returning_setup as (
+select
+    ww.customer_id
+    ,ww.id
+    ,ww.status
+    ,ww.created_at
+    ,ww.cancelled_at
+    ,ww.updated_at
+    ,srmc.min_cancelled_at
+    ,srma.min_active_at
+from
+    `wise-weaver-282922.raw_data_sandbox.acme1_recharge_subscriptions` as ww
+left join
+    setup_returning_min_cancel as srmc
+        on ww.customer_id = srmc.customer_id
+left join
+    setup_returning_min_active as srma
+        on ww.customer_id = srma.customer_id
+)
+
+,subscriptions_returning as (
+select
+    date(created_at) as created_date
+    ,sum(
+        case
+            when status = 'ACTIVE' 
+            and created_at >= min_cancelled_at
+            and min_cancelled_at <= min_active_at
+            and created_at <= min_active_at
+                then 1
+            else 0
+        end
+        ) as returning_subscriptions
+from
+    subscriptions_returning_setup
+group by
+    date(created_at)
+)
+
+,setup_returning as (
+select
+    customer_id
+    ,id
+    ,created_at
+    ,cancelled_at
+    ,updated_at
+    ,status
+    ,lag(cancelled_at) over (partition by customer_id order by updated_at asc) as cancelled_created_flag
+    ,lag(status) over (partition by customer_id order by updated_at asc) as previous_status
+from
+    `wise-weaver-282922.raw_data_sandbox.acme1_recharge_subscriptions`
+order by
+    customer_id, updated_at
+)
+
+,setup_returning_2 as (
+select
+    *
+from
+    setup_returning
+where
+    if(status = 'ACTIVE' 
+    and timestamp_add(timestamp(cancelled_created_flag), INTERVAL 1 SECOND) >= created_at
+    ,0,1) != 0
+)
+
+,setup_returning_3 as (
+select
+    *
+    ,case
+        when status = 'ACTIVE' and previous_status = 'CANCELLED'
+            then 1
+        else 0
+    end as returning
+from
+    setup_returning_2
+)
+
+,subscriptions_returning as (
+select
+    date(created_at) as created_date
+    ,sum(returning) as returning_subscriptions
+from
+    setup_returning_3
+group by
+    1
+)
+
+/* Problem with then just doing a sum on `returning` is that lag doesn't account for multiple subscriptions having the same `created_at` timestamp */
+/* The CTEs below basically do the correct sum based on "if you have the cancelled then active sequence in any of the subscriptions sharing the same timestamp" */
+
+,setup_returning_max as (
+select
+    customer_id
+    ,created_at
+    ,max(returning) as max_return
+from
+    setup_returning_3
+group by
+    1,2
+)
+
+,setup_returning_max_join as (
+select
+    s.customer_id
+    ,s.id
+    ,s.created_at
+    ,s.status
+    ,srm.max_return
+from
+    setup_returning as s
+left join
+    setup_returning_max as srm
+        on s.customer_id = srm.customer_id
+        and s.created_at = srm.created_at
+)
+
+,subscriptions_returning as (
+select
+    date(created_at) as created_date
+    ,sum(max_return) as returning_subscriptions
+from
+    setup_returning_max_join
+group by
+    1
+)
+
+-- {% set import_acme = select_table(`wise-weaver-282922.raw_data_sandbox.acme1_recharge_subscriptions`, `wise-weaver-282922.masterset_3.acme_sample`) %}

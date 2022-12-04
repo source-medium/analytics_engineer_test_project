@@ -1,0 +1,15 @@
+version: 2
+
+models:
+  - name: agg_subscription_metrics_daily
+    description: analytics engineer project submission by renaud beaupre
+    tests:
+      - dbt_utils.equality:
+          compare_model: ref('expected_results')
+    meta:
+      owner: "@renaudb3"
+    columns:
+      - name: date
+        tests:
+          - unique
+          - not_null
