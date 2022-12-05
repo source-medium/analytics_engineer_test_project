@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: customer_active_dates
+    columns:
+      - name: customer_active_date_id
+        tests:
+          - unique
+          - not_null
+

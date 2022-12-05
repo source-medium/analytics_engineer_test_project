@@ -34,6 +34,7 @@ customer_dates as (
 )
 
 select
+      {{ dbt_utils.surrogate_key('cd.date', 'cd.customer_id') }} as customer_active_date_id
       cd.*
     , ifnull(sad.total_new_subscriptions, 0) as total_new_subscriptions
     , ifnull(sad.total_cancelled_subscriptions, 0) as total_cancelled_subscriptions
@@ -46,11 +47,11 @@ select
             is null
         and sad.subscriptions_active_count > 0
       , 1, 0) as is_cancelled_customer_int
-    -- becomes effectively cancelled the day after they cancel
+    , LAG(sad.total_cancelled_subscriptions) over (partition by cd.customer_id order by cd.date) as total_cancelled_subscriptions_prev_day
     , if(
-        LAG(sad.subscriptions_active_count) over (partition by cd.customer_id order by cd.date)
-            is null
-        and sad.subscriptions_active_count > 0
+        LAG(sad.total_cancelled_subscriptions) over (partition by cd.customer_id order by cd.date)
+            > 0
+        and sad.subscriptions_active_count is null 
       , 1, 0) as is_cancelled_effetive_date_customer_int
     , if(
         LAG(sad.subscriptions_active_count) over (partition by cd.customer_id order by cd.date)

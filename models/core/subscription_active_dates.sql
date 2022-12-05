@@ -22,6 +22,7 @@ select
     , rs.sku
     , if(rs.created_date = ds.date_day, 1, 0) as is_new_subscription_int
     , if(rs.cancelled_date = ds.date_day, 1, 0) as is_cancelled_subscription_int
+    , if(rs.cancelled_effective_date = ds.date_day, 1, 0) as is_cancelled_effective_date_subscription_int
     , rs.most_recent_subscription_created_date_all_customers
 from date_spine as ds
 left join recharge_subscriptions as rs
