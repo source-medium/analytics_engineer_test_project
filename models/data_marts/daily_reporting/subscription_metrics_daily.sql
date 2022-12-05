@@ -1,9 +1,5 @@
 
-with subscription_active_dates as (
-    select * from {{ ref('subscription_active_dates') }}
-),
-
-customer_active_dates as (
+with customer_active_dates as (
     select * from {{ ref('customer_active_dates') }}
 ),
 
